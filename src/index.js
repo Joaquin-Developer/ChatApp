@@ -6,6 +6,8 @@ const options = {};
 const io = require('socket.io')(server, options);
 const bodyParser = require("body-parser");
 
+let allUsers = [];
+
 // settings:
 app.set("port", 5000);
 app.set("views", __dirname + "/views");
@@ -34,7 +36,24 @@ app.listen(app.get("port"), function() {
 // });
 
 io.on('connection', (socket) => {
-    socket.on('chat-message', (message) => {
-        console.log(`Mensaje: ${message}`);
+
+    console.log("Un usuario se unió al chat");
+    addUser(socket.id);
+
+    socket.on('chat-message', function(message) {
+        console.log(`Nuevo Mensaje de ${socket.id}: ${message}`);
+        let msgData = { message: message, userName: allUsers[socket.id]["userName"] };
+        socket.broadcast.emit('send-message', msgData);
+        socket.emit('send-message', msgData);
     });
+
+
+
 });
+
+function addUser(id) {
+    allUsers.push({
+        id: id,
+        userName: ""
+    });
+}
