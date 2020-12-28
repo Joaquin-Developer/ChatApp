@@ -1,3 +1,6 @@
-body {
-    background: #be7878;
+
+#messagesList 
+{
+    resize: none;
+    /* pointer-events: none; */
 }
