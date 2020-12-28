@@ -48,6 +48,7 @@ io.on('connection', (socket) => {
     });
 
     socket.on("set-username", function(username) {
+        console.log(`El usuario de id ${socket.id} tiene el nombre de: ${username}`);
         setUsername(socket.id, username);
         socket.broadcast.emit('set-username', username);
         socket.emit('set-username', username);
