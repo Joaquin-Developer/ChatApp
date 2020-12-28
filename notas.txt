@@ -1,0 +1,5 @@
+COSAS POR HACER:
+(Actualizado al 28/12/2020 - 02:57):
+
+- Avanzar con sockets:
+	- send-message tanto en front como back
