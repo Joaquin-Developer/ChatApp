@@ -29,7 +29,7 @@ app.listen(app.get("port"), function() {
     console.log("Server on port ", app.get("port"));
 });
 
-// socket:
+// socket.io:
 
 // io.on('connection', (socket) => {
 //     console.log('a user connected');
@@ -42,7 +42,7 @@ io.on('connection', (socket) => {
 
     socket.on("chat-message", function(message) {
         console.log(`Nuevo Mensaje de ${socket.id}: ${message}`);
-        let msgData = { message: message, userName: allUsers[socket.id]["userName"] };
+        let msgData = { message: message, userName: getUsername(socket.id) };
         socket.broadcast.emit('send-message', msgData);
         socket.emit('send-message', msgData);
     });
@@ -65,10 +65,20 @@ function addUser(id) {
 
 function setUsername(id, userName) {
     // esto se puede optimizar!
-    allUsers.forEach(elem => {
-        if (elem.id === id) {
-            elem.userName = userName;
+    allUsers.forEach(user => {
+        if (user.id === id) {
+            user.userName = userName;
             break;
+        } 
+    });
+
+}
+
+function getUsername(id) {
+    // esto también se puede optimizar!!
+    allUsers.forEach(user => {
+        if (user.id === id) {
+            return user.userName;
         } 
     });
 }

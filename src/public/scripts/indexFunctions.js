@@ -16,7 +16,8 @@ addEventListener("load", function() {
 		if(name === "")
 			alert("Error: No indicó ningun nombre de identificación.");
 	}
-	sessionStorage.setItem("userName", name);
+    sessionStorage.setItem("userName", name);
+    socket.emit("set-username", sessionStorage.getItem("userName"));
 	alert(`¡Bienvenid@ a la sesión, ${name}!`);
 });
 
