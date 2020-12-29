@@ -5,7 +5,7 @@ module.exports = function(io) {
         addUser(socket.id);
     
         socket.on("chat-message", function(message) {
-            console.log(`Nuevo Mensaje de ${socket.id}: ${message}`);
+            console.log(`Nuevo Mensaje de ${getUsername(socket.id)}: ${message}`);
             let msgData = { message: message, userName: getUsername(socket.id) };
             socket.broadcast.emit('send-message', msgData);
             socket.emit('send-message', msgData);
@@ -30,7 +30,7 @@ function addUser(id) {
         id: id,
         userName: undefined
     });
-    allUsers.forEach(user => console.log(user));
+    // allUsers.forEach(user => console.log(user));
 }
 
 function setUsername(id, userName) {
@@ -38,18 +38,17 @@ function setUsername(id, userName) {
     allUsers.forEach(user => {
         if (user.id === id) {
             user.userName = userName;
-            break;
         } 
     });
-
+    allUsers.forEach(user => console.log(user));
 }
 
 function getUsername(id) {
     // esto también se puede optimizar!!
-    allUsers.forEach(user => {
+    for (let user of allUsers) {
         if (user.id === id) {
             return user.userName;
-        } 
-    });
+        }
+    }
 }
 

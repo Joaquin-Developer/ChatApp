@@ -39,7 +39,7 @@ function sendMessage() {
 		alert("Debe ingresar un mensaje");
 	} else {
         socket.emit("chat-message", message);
-        addMessageInTextArea(message, sessionStorage.getItem("userName"));
+        // addMessageInTextArea(message, sessionStorage.getItem("userName"));
 	}
 
 }
@@ -64,10 +64,8 @@ const cleanTextBox = () => txtMensaje.value = "";
 
 // escucha de nuevos mensajes
 socket.on('send-message', function(data) {
-    
+    console.log(data);
     addMessageInTextArea(data.message, data.userName);
-
-    // const message = `${data.userName} : `;
 
 });
 
