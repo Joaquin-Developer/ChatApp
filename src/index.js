@@ -1,18 +1,42 @@
 
+const http = require("http");
 const express = require("express");
 const app = express();
-const server = require('http').createServer(app);
+const server = require("http").createServer(app);
 const options = {};
-const io = require('socket.io')(server, options);
+const io = require("socket.io")(server, options);
 const bodyParser = require("body-parser");
 
-let allUsers = [];
+let allUsers = [];  // list of users of chat
 
 // settings:
 app.set("port", 5000);
 app.set("views", __dirname + "/views");
 app.engine("html", require("ejs").renderFile);
 app.set("view engine", "ejs");
+
+// web-sockets:
+io.on('connection', (socket) => {
+
+    console.log("Un usuario: " + socket.id + "se unió al chat");
+    addUser(socket.id);
+
+
+    // socket.on("chat-message", function(message) {
+    //     console.log(`Nuevo Mensaje de ${socket.id}: ${message}`);
+    //     let msgData = { message: message, userName: getUsername(socket.id) };
+    //     socket.broadcast.emit('send-message', msgData);
+    //     socket.emit('send-message', msgData);
+    // });
+
+    // socket.on("set-username", function(username) {
+    //     console.log(`El usuario de id ${socket.id} tiene el nombre de: ${username}`);
+    //     setUsername(socket.id, username);
+    //     socket.broadcast.emit('set-username', username);
+    //     socket.emit('set-username', username);
+    // });
+
+});
 
 // middlewares:
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -25,42 +49,18 @@ app.use(require("./routes/index"));
 app.use(express.static(__dirname + "/public"));
 
 // listening the server:
-app.listen(app.get("port"), function() {
-    console.log("Server on port ", app.get("port"));
+server.listen(app.get("port"), function() {
+    console.log("Server running on port ", app.get("port"));
 });
 
-// socket.io:
-
-// io.on('connection', (socket) => {
-//     console.log('a user connected');
-// });
-
-io.on('connection', (socket) => {
-
-    console.log("Un usuario se unió al chat");
-    addUser(socket.id);
-
-    socket.on("chat-message", function(message) {
-        console.log(`Nuevo Mensaje de ${socket.id}: ${message}`);
-        let msgData = { message: message, userName: getUsername(socket.id) };
-        socket.broadcast.emit('send-message', msgData);
-        socket.emit('send-message', msgData);
-    });
-
-    socket.on("set-username", function(username) {
-        console.log(`El usuario de id ${socket.id} tiene el nombre de: ${username}`);
-        setUsername(socket.id, username);
-        socket.broadcast.emit('set-username', username);
-        socket.emit('set-username', username);
-    });
-
-});
+// Chat and users LOGIC:
 
 function addUser(id) {
     allUsers.push({
         id: id,
         userName: undefined
     });
+    allUsers.forEach(user => console.log(user));
 }
 
 function setUsername(id, userName) {

@@ -2,7 +2,7 @@
  * index.html functions
  */
 
-const socket = io("http://localhost:5000"); // socket.io importado en index.html
+const socket = io(); //io("http://localhost:5000"); // socket.io importado en index.html
 const txtMensaje = document.getElementById("txtMensaje");
 const messagesList = document.getElementById("messagesList");
 
