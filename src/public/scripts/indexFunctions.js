@@ -6,20 +6,33 @@ const socket = io(); //io("http://localhost:5000"); // socket.io importado en in
 const txtMensaje = document.getElementById("txtMensaje");
 const messagesList = document.getElementById("messagesList");
 
-addEventListener("load", function() {
-    // console.log("Hola");
-    // hacer algunas cositas mas aquí ... (sesionStorage)
-    let name = "";
-	while (name === null || name.length === 0) {
-		name = prompt("Ingresar nombre identificatorio en el chat: ", "");
+addEventListener("load", sendUsername);
 
-		if(name === "")
-			alert("Error: No indicó ningun nombre de identificación.");
-	}
-    sessionStorage.setItem("userName", name);
-    socket.emit("set-username", sessionStorage.getItem("userName"));
-	alert(`¡Bienvenid@ a la sesión, ${name}!`);
-});
+
+function sendUsername() {
+    let name = "";
+
+    while (name === null || name.length === 0) {
+        name = prompt("Ingresar nombre identificatorio en el chat: ", "");
+        if(name === "") {
+            alert("Error: No indicó ningun nombre de identificación.");
+        }
+    }
+    
+    // send username (!= null) to server
+    socket.emit("set-username", name, data => {
+        console.log(data);
+        if (data) {
+            sessionStorage.setItem("userName", name);
+            alert(`¡Bienvenid@ a la sesión, ${sessionStorage.getItem("userName")}!`);
+        } else {
+            alert("Error: Ya hay un usuario con el mismo nombre, eliga otro nombre!");
+            sendUsername();
+        }
+    });
+
+
+}
 
 document.getElementById("acercaDe").addEventListener("click", function() {
     alert("Aun no programé esta sección...");

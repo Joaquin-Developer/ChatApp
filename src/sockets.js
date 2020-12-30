@@ -11,19 +11,28 @@ module.exports = function(io) {
             socket.emit('send-message', msgData);
         });
     
-        socket.on("set-username", function(username) {
-            console.log(`El usuario de id ${socket.id} tiene el nombre de: ${username}`);
-            setUsername(socket.id, username);
-            socket.broadcast.emit('set-username', username);
-            socket.emit('set-username', username);
+        socket.on("set-username", function(username, cb) {
+
+            if (setUsername(socket.id, username)) {
+                cb(true);
+                console.log(`El usuario de id ${socket.id} tiene el nombre de: ${username}`);
+                socket.nickname = username;
+                // console.log("Nickname: " + socket.nickname);
+                setUsername(socket.id, username);
+                socket.broadcast.emit('set-username', username);
+                socket.emit('set-username', username);
+            } else {
+                console.log("ya hay un usuario con el username recibido: " + username);
+                cb(false);
+            }
         });
     
     });
-}
+} // end module
 
 // Chat and users LOGIC:
 
-let allUsers = [];  // list of users of chat
+let allUsers = [];  // list of all users of chat
 
 function addUser(id) {
     allUsers.push({
@@ -35,12 +44,21 @@ function addUser(id) {
 
 function setUsername(id, userName) {
     // esto se puede optimizar!
+    // primero, verifico que no existan otros usuarios con el mismo userName:
+    for (let user of allUsers) {
+        if (user.userName === userName) {
+            return false;
+        }
+    }
+
+    // luego, agrego el nombre de usuario:
     allUsers.forEach(user => {
         if (user.id === id) {
             user.userName = userName;
         } 
     });
     allUsers.forEach(user => console.log(user));
+    return true;
 }
 
 function getUsername(id) {
