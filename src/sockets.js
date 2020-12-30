@@ -14,7 +14,7 @@ module.exports = function(io) {
         socket.on("set-username", function(username, cb) {
 
             if (setUsername(socket.id, username)) {
-                cb(true);
+                cb(true);  // callback
                 console.log(`El usuario de id ${socket.id} tiene el nombre de: ${username}`);
                 socket.nickname = username;
                 // console.log("Nickname: " + socket.nickname);
@@ -25,6 +25,12 @@ module.exports = function(io) {
                 console.log("ya hay un usuario con el username recibido: " + username);
                 cb(false);
             }
+        });
+
+        socket.on("disconnect", function(data) {
+            console.log(`El usuario con id ${socket.id} se desconectó.`);
+            deleteUsername(socket.id);
+            // mas adelente, debería notoficarle a cada usuario que un usuario se desconectó...
         });
     
     });
@@ -68,5 +74,17 @@ function getUsername(id) {
             return user.userName;
         }
     }
+}
+
+function deleteUsername(id) {
+    for (let user of allUsers) {
+        if (user.id === id) {
+            allUsers.splice(allUsers.indexOf(user), 1);
+        }
+    }
+    // volvemos a mostrar usuarios conectados por consola:
+    if (allUsers.length === 0) console.log("Hay 0 usuarios conectados.");    
+    else allUsers.forEach(user => console.log(user));
+    
 }
 
