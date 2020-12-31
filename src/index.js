@@ -5,6 +5,7 @@ const app = express();
 const server = require("http").createServer(app);
 const options = {};
 const io = require("socket.io")(server, options);
+const mongoose = require("mongoose");
 const path = require("path");
 const bodyParser = require("body-parser");
 
@@ -13,6 +14,11 @@ app.set("port", process.env.PORT || 5000);
 app.set("views", path.join(__dirname, "views"));
 app.engine("html", require("ejs").renderFile);
 app.set("view engine", "ejs");
+
+// db connection
+mongoose.connect('mongodb://localhost/Chat_Messages')
+    .then(db => console.log("Database is connected!"))
+    .catch(err => console.error(err));
 
 // web-sockets:
 require("./sockets.js")(io);

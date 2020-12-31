@@ -1,5 +1,5 @@
 # ChatApp
-Chat web en tiempo real, utilizando HTML/CSS/JS/Bootstrap 5 en frontend, y Node.js en el backend con express y web sockets.
+Chat web en tiempo real, utilizando HTML/CSS/JS/Bootstrap 5 en frontend, y Node.js en el backend con express, web sockets, y MongoDB (mongoose).
 
 ## Requisitos para servidor:
 - Npm (6.14.4), node (10.19.0) instalados
