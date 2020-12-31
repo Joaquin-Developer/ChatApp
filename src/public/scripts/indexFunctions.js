@@ -21,7 +21,6 @@ function sendUsername() {
     
     // send username (!= null) to server
     socket.emit("set-username", name, data => {
-        console.log(data);
         if (data) {
             sessionStorage.setItem("userName", name);
             alert(`¡Bienvenid@ a la sesión, ${sessionStorage.getItem("userName")}!`);
@@ -77,8 +76,14 @@ const cleanTextBox = () => txtMensaje.value = "";
 
 // escucha de nuevos mensajes
 socket.on('send-message', function(data) {
-    console.log(data);
     addMessageInTextArea(data.message, data.userName);
+});
+
+// cargar mensajes anteriores al iniciar el chat:
+socket.on("recover-old-messages", function(data) {
+    for (let message of data) {
+        addMessageInTextArea(message.message, message.username);
+    }
 
 });
 
