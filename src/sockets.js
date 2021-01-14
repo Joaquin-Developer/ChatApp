@@ -6,16 +6,16 @@ module.exports = function(io) {
     io.on('connection', async (socket) => {
         console.log(`Un usuario con id ${socket.id} se unió al chat`);
         addUser(socket.id);
-        let oldMessages = await Message.find({});
-        socket.emit("recover-old-messages", oldMessages);
+        // let oldMessages = await Message.find({});
+        // socket.emit("recover-old-messages", oldMessages);
     
         socket.on("chat-message", async function(message) {
             console.log(`Nuevo Mensaje de ${getUsername(socket.id)}: ${message}`);
-            const msg = new Message({
-                username: socket.nickname,
-                message: message
-            });
-            await msg.save();
+            // const msg = new Message({
+            //     username: socket.nickname,
+            //     message: message
+            // });
+            // await msg.save();
 
             let msgData = { message: message, userName: getUsername(socket.id) };
             socket.broadcast.emit('send-message', msgData);

@@ -15,10 +15,12 @@ app.set("views", path.join(__dirname, "views"));
 app.engine("html", require("ejs").renderFile);
 app.set("view engine", "ejs");
 
+// arreglar el problema con el gestor MongoDB
+
 // db connection
-mongoose.connect('mongodb://localhost/Chat_Messages')
-    .then(db => console.log("Database is connected!"))
-    .catch(err => console.error(err));
+// mongoose.connect('mongodb://localhost/Chat_Messages')
+//     .then(db => console.log("Database is connected!"))
+//     .catch(err => console.error(err));
 
 // web-sockets:
 require("./sockets.js")(io);
