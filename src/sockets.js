@@ -61,7 +61,6 @@ function addUser(id) {
 
 function setUsername(id, userName) {
     // esto se puede optimizar!
-    // primero, verifico que no existan otros usuarios con el mismo userName:
     for (let user of allUsers) {
         if (user.userName === userName) {
             return false;
