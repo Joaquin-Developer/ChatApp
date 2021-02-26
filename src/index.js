@@ -35,6 +35,11 @@ app.use(require("./routes/index"));
 // static files:
 app.use(express.static(path.join(__dirname, "public")));
 
+// 404 not found requests:
+app.use((request, response, next) => {
+    response.status(404).render("404notFound.html");
+});
+
 // listening the server:
 server.listen(app.get("port"), function() {
     console.log("Server running on port ", app.get("port"));
