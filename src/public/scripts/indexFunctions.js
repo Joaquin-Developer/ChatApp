@@ -8,9 +8,7 @@ const socket = io();
 const txtMensaje = document.getElementById("txtMensaje");
 const messagesList = document.getElementById("messagesList");
 
-addEventListener("load", () => {
-    alert(loadMessage);
-});
+addEventListener("load", showAlert("error", loadMessage));
 
 document.querySelector("#btnLoginChat").addEventListener("click", (evt) => {
     evt.preventDefault();
@@ -79,7 +77,7 @@ function hideHtmlElement(element) {
 document.getElementById("btnSend").addEventListener("click", sendMessage);
 
 txtMensaje.addEventListener("keypress", function(event) {
-    // usuario presiona enter
+    // user press enter
 	if (event.keyCode === 13) sendMessage(); 
 });
 
@@ -99,26 +97,26 @@ function addMessageInTextArea(message, userName)
 {
     let textMessage;
     if (sessionStorage.getItem("userName") === userName) {
-        // yo envié el mensaje
+        // session user sent the message
         textMessage = `Yo a las ${getActualDate()} >> ${message} \n`;
     } else {
-        // otro usuario envió el mensaje
+        // another user sent the message
         textMessage = `${userName} a las ${getActualDate()} >> ${message} \n`;
     }
     messagesList.value += textMessage;
-    // ajusto scroll al final:
+    // adjust scroll at the end:
     messagesList.scrollTop = messagesList.scrollHeight;
 	cleanTextBox();
 }
 
 const cleanTextBox = () => txtMensaje.value = "";
 
-// escucha de nuevos mensajes
+// listen new messages:
 socket.on('send-message', function(data) {
     addMessageInTextArea(data.message, data.userName);
 });
 
-// cargar mensajes anteriores al iniciar el chat:
+// load older messages when starting chat
 socket.on("recover-old-messages", function(data) {
     for (let message of data) {
         addMessageInTextArea(message.message, message.username);
