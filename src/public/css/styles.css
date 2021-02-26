@@ -4,3 +4,11 @@
     resize: none;
     /* pointer-events: none; */
 }
+
+.noVisible {
+    display: none;
+}
+
+.visible {
+    display: block;
+}

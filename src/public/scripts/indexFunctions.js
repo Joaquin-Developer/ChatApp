@@ -1,41 +1,80 @@
 /**
  * index.html functions
+ * JavaScript Vanilla :)
  */
 
-const socket = io(); //io("http://localhost:5000"); // socket.io importado en index.html
+const loadMessage = "Atención: Este sitio se encuentra actualmente en mantenimiento. Puede generarse alguna falla!"
+const socket = io();
 const txtMensaje = document.getElementById("txtMensaje");
 const messagesList = document.getElementById("messagesList");
 
-addEventListener("load", sendUsername);
+addEventListener("load", () => {
+    alert(loadMessage);
+});
+
+document.querySelector("#btnLoginChat").addEventListener("click", (evt) => {
+    evt.preventDefault();
+    sendUsername();
+});
 
 
 function sendUsername() {
-    let name = "";
+    const name = document.querySelector("#inputUsername").value;
 
-    while (name === null || name.length === 0) {
-        name = prompt("Ingresar nombre identificatorio en el chat: ", "");
-        if(name === "") {
-            alert("Error: No indicó ningun nombre de identificación.");
-        }
+    if (!name) {
+        showAlert("error", "Error: No indicó ningun nombre de identificación.");
+        return;
     }
-    
-    // send username (!= null) to server
+    // console.log("Ok");
     socket.emit("set-username", name, data => {
         if (data) {
             sessionStorage.setItem("userName", name);
-            alert(`¡Bienvenid@ a la sesión, ${sessionStorage.getItem("userName")}!`);
+            showAlert("success", `¡Bienvenid@ a la sesión, ${sessionStorage.getItem("userName")}!`);
+            showChat();
         } else {
-            alert("Error: Ya hay un usuario con el mismo nombre, eliga otro nombre!");
-            sendUsername();
+            showAlert("error", "Error: Ya hay un usuario con el mismo nombre, eliga otro nombre!");
         }
     });
 
+}
+
+function showChat() {
+    const chat = document.querySelector("#chatApp");
+    showHtmlElement(chat);
+    hideHtmlElement(document.querySelector("#formLoginChat"))
+}
+
+function showAlert(typeAlert, textAlert) {
+    let alertElem = null;
+    if (typeAlert === "error") {
+        alertElem = document.querySelector("#errorAlert");
+    } else if (typeAlert === "success") {
+        alertElem = document.querySelector("#successAlert");
+    } else { return; }
+
+    if (alertElem.firstChild) { 
+        alertElem.removeChild(alertElem.firstChild);
+    }
+    
+    alertElem.appendChild(document.createTextNode(textAlert));
+    showHtmlElement(alertElem);
+
+    setTimeout(() => {
+        hideHtmlElement(alertElem);
+    }, 8000);
 
 }
 
-document.getElementById("acercaDe").addEventListener("click", function() {
-    alert("Aun no programé esta sección...");
-});
+// show and hide html elements:
+function showHtmlElement(element) {
+    element.classList.remove("noVisible");
+    element.classList.add("visible");
+}
+
+function hideHtmlElement(element) {
+    element.classList.remove("visible");
+    element.classList.add("noVisible");
+}
 
 document.getElementById("btnSend").addEventListener("click", sendMessage);
 

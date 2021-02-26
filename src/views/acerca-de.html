@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title><%= title %></title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous"><!-- Bootstrap css: -->
+    <link rel="stylesheet" href="/css/styles.css"> <!-- Custom CSS: -->
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">SafeText App</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Inicio</a></li>
+                    <li id="acercaDe" class="nav-item"><a class="nav-link" href="/acerca-de" target="_blank">Acerca de</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav><br>
+    <div class="container">
+        <h2>Acerca de SafeText</h2><hr>
+        <p>SafeText es una aplicación web de mensajería sencilla, enfocada en la privacidad de sus usuarios.</p>
+        <p>En su versión BETA (V.1.0) cuenta únicamente con una aplicación web de pequeño porte. 
+            Próximamente se desarrollarán mejoras en el sistema, y se lanzará una aplicación móbil para Android.
+        </p><br>
+        <h5>Información del desarrollador:</h5>
+        <p>
+            <strong>Developer:</strong> Joaquín Parrilla<br>
+            <strong>Página personal: </strong> <a href="https://joaquin-parrilla.github.io/">link</a>
+        </p>
+        <h5>Datos técnicos de la aplicación:</h5>
+        <p>
+            <strong>Desarrollo en el frontend: </strong> <br>
+            HTML5/CSS3/JavaScript Vanilla, Bootstrap v5.0<br>
+            En la versión 1.2 se implementará Angular como framework.<br>
+            <strong>Desarrollo en el backend: </strong> Node.js<br>
+            Próximamente se implementará persistencia de datos de usuarios con MongoDB<br><br>
+            <strong>Nota: </strong> ¡Los mensajes no se almacenan en el servidor de la aplicación! Mantenemos tu privacidad a salvo.
+        </p>
+    </div>
+</body>
+</html>

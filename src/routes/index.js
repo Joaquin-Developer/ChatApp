@@ -5,12 +5,12 @@ const router = express.Router();
 // create my routes:
 
 router.get("/", function(req, res) {
-    res.render("index.html", { title: "SafeText - DEMO (v1.0)" });
+    res.render("index.html", { title: "SafeText - BETA(v1.0)" });
 });
 
-// router.get("*", function(req, res) {
-//     res.send("404 not found");
-// });
+router.get("/acerca-de", (req, res) => {
+    res.render("acerca-de.html", { title: "Acerca de - SafeText v1.0" });
+})
 
 // exports my routes:
 module.exports = router;
